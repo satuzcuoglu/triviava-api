@@ -1,0 +1,20 @@
+{
+  "name": "triviava",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "truffle migrate --network fuji",
+    "migrate:dev": "truffle migrate --network kovan",
+    "migrate:prod": "truffle migrate --network mainnet"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.4.0",
+    "@truffle/hdwallet-provider": "^1.2.3",
+    "truffle": "^5.4.23"
+  }
+}

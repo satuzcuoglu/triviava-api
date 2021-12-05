@@ -13,16 +13,39 @@ export class EventController {
     return event;
   }
 
-  @Get()
-  async getEvents(@GetWalletAddress() address: string) {
-    const events = await this.eventService.getEvents(address);
-    return events;
+  @Post('/:id/finish')
+  async finishEvent(@Param('id') id: number) {
+    const event = await this.eventService.findById(id);
+    await this.eventService.finishEvent(event);
   }
 
-  @Get('/:id/results')
-  async getEventResults(@Param('id') eventId: string ) {
-    const event = await this.eventService.getResultsByEventId(eventId);
-    return event;
+  @Get('/upcoming')
+  async getUpcomingEvents() {
+    const events = await this.eventService.getUpcomingEvents();
+    return events.map((e) => ({
+      ...e,
+      questions: e.questions.map((q) => ({
+        ...q,
+        options: q.options.map((o) => ({
+          id: o.id,
+          text: o.text,
+        })),
+      })),
+    }));
   }
 
+  @Get('/active')
+  async getActiveEvents(@GetWalletAddress() address: string) {
+    const events = await this.eventService.getActiveEvents(address);
+    return events.map((e) => ({
+      ...e,
+      questions: e.questions.map((q) => ({
+        ...q,
+        options: q.options.map((o) => ({
+          id: o.id,
+          text: o.text,
+        })),
+      })),
+    }));
+  }
 }

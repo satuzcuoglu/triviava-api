@@ -9,533 +9,627 @@ import { Question } from 'src/question/question.entity';
 
 @Injectable()
 export class ContractService {
-  private mainContractAddress = '0x74A9CF88B46c195Bf3F094CF98BD78173FC49448';
+  private mainContractAddress = '0x13Ded9a082aF0d0eB8404366F721E690C85034f6';
   private mainContractABI: AbiItem[] = [
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "bytes32",
-          "name": "questionHash",
-          "type": "bytes32"
-        }
-      ],
-      "name": "createQuestion",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "quizId",
-          "type": "uint256"
+          internalType: 'bytes32',
+          name: 'questionHash',
+          type: 'bytes32',
         },
         {
-          "internalType": "bytes32[]",
-          "name": "_questionHashes",
-          "type": "bytes32[]"
+          internalType: 'bytes32[]',
+          name: '_optionHashes',
+          type: 'bytes32[]',
+        },
+      ],
+      name: 'createQuestion',
+      outputs: [],
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
+    {
+      inputs: [
+        {
+          internalType: 'uint256',
+          name: 'quizId',
+          type: 'uint256',
         },
         {
-          "internalType": "uint256",
-          "name": "_startTime",
-          "type": "uint256"
+          internalType: 'bytes32[]',
+          name: '_questionHashes',
+          type: 'bytes32[]',
         },
         {
-          "internalType": "uint256",
-          "name": "_endTime",
-          "type": "uint256"
+          internalType: 'uint256',
+          name: '_startTime',
+          type: 'uint256',
         },
         {
-          "internalType": "uint256",
-          "name": "_entryFee",
-          "type": "uint256"
-        }
-      ],
-      "name": "createQuiz",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "creatorStake",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "quizId",
-          "type": "uint256"
+          internalType: 'uint256',
+          name: '_endTime',
+          type: 'uint256',
         },
         {
-          "internalType": "bytes32[]",
-          "name": "_correctOptionHashes",
-          "type": "bytes32[]"
-        }
+          internalType: 'uint256',
+          name: '_entryFee',
+          type: 'uint256',
+        },
       ],
-      "name": "finalizeQuiz",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
+      name: 'createQuiz',
+      outputs: [],
+      stateMutability: 'nonpayable',
+      type: 'function',
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_triavaManager",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
+      inputs: [],
+      name: 'creatorStake',
+      outputs: [],
+      stateMutability: 'payable',
+      type: 'function',
     },
     {
-      "anonymous": false,
-      "inputs": [
+      inputs: [
         {
-          "indexed": true,
-          "internalType": "address",
-          "name": "creator",
-          "type": "address"
+          internalType: 'uint256',
+          name: 'quizId',
+          type: 'uint256',
         },
         {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "stakingAmount",
-          "type": "uint256"
-        }
+          internalType: 'bytes32[]',
+          name: '_correctOptionHashes',
+          type: 'bytes32[]',
+        },
       ],
-      "name": "CreatorStaking",
-      "type": "event"
+      name: 'finalizeQuiz',
+      outputs: [],
+      stateMutability: 'nonpayable',
+      type: 'function',
     },
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "uint256",
-          "name": "quizId",
-          "type": "uint256"
-        }
+          internalType: 'uint256',
+          name: 'quizId',
+          type: 'uint256',
+        },
       ],
-      "name": "joinQuiz",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
+      name: 'joinQuiz',
+      outputs: [],
+      stateMutability: 'payable',
+      type: 'function',
     },
     {
-      "anonymous": false,
-      "inputs": [
+      inputs: [
         {
-          "indexed": true,
-          "internalType": "address",
-          "name": "creator",
-          "type": "address"
+          internalType: 'address',
+          name: '_triavaManager',
+          type: 'address',
+        },
+      ],
+      stateMutability: 'nonpayable',
+      type: 'constructor',
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: 'address',
+          name: 'creator',
+          type: 'address',
         },
         {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "slashingAmount",
-          "type": "uint256"
-        }
+          indexed: false,
+          internalType: 'uint256',
+          name: 'stakingAmount',
+          type: 'uint256',
+        },
       ],
-      "name": "LogCreatorSlashing",
-      "type": "event"
+      name: 'CreatorStaking',
+      type: 'event',
     },
     {
-      "anonymous": false,
-      "inputs": [
+      anonymous: false,
+      inputs: [
         {
-          "indexed": true,
-          "internalType": "address",
-          "name": "creator",
-          "type": "address"
+          indexed: true,
+          internalType: 'address',
+          name: 'creator',
+          type: 'address',
         },
         {
-          "indexed": false,
-          "internalType": "bytes32",
-          "name": "questionHash",
-          "type": "bytes32"
-        }
+          indexed: false,
+          internalType: 'uint256',
+          name: 'slashingAmount',
+          type: 'uint256',
+        },
       ],
-      "name": "NewQuestion",
-      "type": "event"
+      name: 'LogCreatorSlashing',
+      type: 'event',
     },
     {
-      "anonymous": false,
-      "inputs": [
+      anonymous: false,
+      inputs: [
         {
-          "indexed": true,
-          "internalType": "address",
-          "name": "previousOwner",
-          "type": "address"
+          indexed: true,
+          internalType: 'address',
+          name: 'creator',
+          type: 'address',
         },
         {
-          "indexed": true,
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
+          indexed: false,
+          internalType: 'bytes32',
+          name: 'questionHash',
+          type: 'bytes32',
+        },
       ],
-      "name": "OwnershipTransferred",
-      "type": "event"
+      name: 'NewQuestion',
+      type: 'event',
     },
     {
-      "inputs": [],
-      "name": "renounceOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
+      anonymous: false,
+      inputs: [
         {
-          "internalType": "uint256",
-          "name": "quizId",
-          "type": "uint256"
+          indexed: true,
+          internalType: 'address',
+          name: 'previousOwner',
+          type: 'address',
         },
         {
-          "internalType": "bytes32[]",
-          "name": "_optionHashes",
-          "type": "bytes32[]"
-        }
+          indexed: true,
+          internalType: 'address',
+          name: 'newOwner',
+          type: 'address',
+        },
       ],
-      "name": "submitQuiz",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
+      name: 'OwnershipTransferred',
+      type: 'event',
     },
     {
-      "inputs": [
+      anonymous: false,
+      inputs: [
         {
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "transferOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "questionHash",
-          "type": "bytes32"
-        }
-      ],
-      "name": "validateQuestion",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "validatorStake",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "validator",
-          "type": "address"
+          indexed: true,
+          internalType: 'address',
+          name: 'validator',
+          type: 'address',
         },
         {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "stakingAmount",
-          "type": "uint256"
-        }
-      ],
-      "name": "ValidatorStaking",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "questionHash",
-          "type": "bytes32"
+          indexed: false,
+          internalType: 'bytes32',
+          name: 'questionHash',
+          type: 'bytes32',
         },
         {
-          "internalType": "string",
-          "name": "optionText",
-          "type": "string"
+          indexed: false,
+          internalType: 'bool',
+          name: 'isApproved',
+          type: 'bool',
+        },
+      ],
+      name: 'QuestionValidated',
+      type: 'event',
+    },
+    {
+      inputs: [],
+      name: 'renounceOwnership',
+      outputs: [],
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
+    {
+      inputs: [
+        {
+          internalType: 'uint256',
+          name: 'quizId',
+          type: 'uint256',
         },
         {
-          "internalType": "bool",
-          "name": "isCorrect",
-          "type": "bool"
+          internalType: 'bytes32[]',
+          name: '_optionHashes',
+          type: 'bytes32[]',
+        },
+      ],
+      name: 'submitQuiz',
+      outputs: [],
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
+    {
+      inputs: [
+        {
+          internalType: 'address',
+          name: 'newOwner',
+          type: 'address',
+        },
+      ],
+      name: 'transferOwnership',
+      outputs: [],
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
+    {
+      inputs: [
+        {
+          internalType: 'bytes32',
+          name: 'questionHash',
+          type: 'bytes32',
         },
         {
-          "internalType": "address",
-          "name": "creatorAddress",
-          "type": "address"
-        }
+          internalType: 'bool',
+          name: 'isApproved',
+          type: 'bool',
+        },
       ],
-      "name": "calculateOptionHash",
-      "outputs": [
-        {
-          "internalType": "bytes32",
-          "name": "prefixedHash",
-          "type": "bytes32"
-        }
-      ],
-      "stateMutability": "pure",
-      "type": "function"
+      name: 'validateQuestion',
+      outputs: [],
+      stateMutability: 'nonpayable',
+      type: 'function',
     },
     {
-      "inputs": [
+      inputs: [],
+      name: 'validatorStake',
+      outputs: [],
+      stateMutability: 'payable',
+      type: 'function',
+    },
+    {
+      anonymous: false,
+      inputs: [
         {
-          "internalType": "string",
-          "name": "qText",
-          "type": "string"
+          indexed: true,
+          internalType: 'address',
+          name: 'validator',
+          type: 'address',
         },
         {
-          "internalType": "address",
-          "name": "creatorAddress",
-          "type": "address"
-        }
+          indexed: false,
+          internalType: 'uint256',
+          name: 'stakingAmount',
+          type: 'uint256',
+        },
       ],
-      "name": "calculateQuestionHash",
-      "outputs": [
-        {
-          "internalType": "bytes32",
-          "name": "prefixedHash",
-          "type": "bytes32"
-        }
-      ],
-      "stateMutability": "pure",
-      "type": "function"
+      name: 'ValidatorStaking',
+      type: 'event',
     },
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "creatorSlashings",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "creatorStakings",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "minCreatorStaking",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "minValidatorStaking",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "name": "options",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "text",
-          "type": "string"
+          internalType: 'bytes32',
+          name: 'questionHash',
+          type: 'bytes32',
         },
         {
-          "internalType": "bool",
-          "name": "isCorrect",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "name": "questions",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "isUsed",
-          "type": "bool"
+          internalType: 'string',
+          name: 'optionText',
+          type: 'string',
         },
         {
-          "internalType": "address",
-          "name": "creator",
-          "type": "address"
+          internalType: 'bool',
+          name: 'isCorrect',
+          type: 'bool',
         },
         {
-          "internalType": "string",
-          "name": "text",
-          "type": "string"
+          internalType: 'address',
+          name: 'creatorAddress',
+          type: 'address',
+        },
+      ],
+      name: 'calculateOptionHash',
+      outputs: [
+        {
+          internalType: 'bytes32',
+          name: 'prefixedHash',
+          type: 'bytes32',
+        },
+      ],
+      stateMutability: 'pure',
+      type: 'function',
+    },
+    {
+      inputs: [
+        {
+          internalType: 'string',
+          name: 'qText',
+          type: 'string',
         },
         {
-          "internalType": "bool",
-          "name": "isRewarded",
-          "type": "bool"
-        }
+          internalType: 'address',
+          name: 'creatorAddress',
+          type: 'address',
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
+      name: 'calculateQuestionHash',
+      outputs: [
+        {
+          internalType: 'bytes32',
+          name: 'prefixedHash',
+          type: 'bytes32',
+        },
+      ],
+      stateMutability: 'pure',
+      type: 'function',
     },
     {
-      "inputs": [
+      inputs: [],
+      name: 'creatorRate',
+      outputs: [
         {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
       ],
-      "name": "quizzes",
-      "outputs": [
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [
         {
-          "internalType": "uint256",
-          "name": "startTime",
-          "type": "uint256"
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
+      ],
+      name: 'creatorSlashings',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [
+        {
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
+      ],
+      name: 'creatorStakings',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [
+        {
+          internalType: 'uint256',
+          name: 'quizId',
+          type: 'uint256',
+        },
+      ],
+      name: 'getQuizParticipants',
+      outputs: [
+        {
+          internalType: 'address[]',
+          name: '',
+          type: 'address[]',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [],
+      name: 'minCreatorStaking',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [],
+      name: 'minimumVoteRequired',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [],
+      name: 'minValidatorStaking',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [
+        {
+          internalType: 'bytes32',
+          name: '',
+          type: 'bytes32',
+        },
+      ],
+      name: 'options',
+      outputs: [
+        {
+          internalType: 'string',
+          name: 'text',
+          type: 'string',
         },
         {
-          "internalType": "uint256",
-          "name": "endTime",
-          "type": "uint256"
+          internalType: 'bool',
+          name: 'isCorrect',
+          type: 'bool',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [],
+      name: 'owner',
+      outputs: [
+        {
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [
+        {
+          internalType: 'bytes32',
+          name: '',
+          type: 'bytes32',
+        },
+      ],
+      name: 'questions',
+      outputs: [
+        {
+          internalType: 'bool',
+          name: 'isUsed',
+          type: 'bool',
         },
         {
-          "internalType": "uint256",
-          "name": "entryFee",
-          "type": "uint256"
-        }
+          internalType: 'address',
+          name: 'creator',
+          type: 'address',
+        },
+        {
+          internalType: 'string',
+          name: 'text',
+          type: 'string',
+        },
+        {
+          internalType: 'bool',
+          name: 'isRewarded',
+          type: 'bool',
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
+      stateMutability: 'view',
+      type: 'function',
     },
     {
-      "inputs": [],
-      "name": "triavaManager",
-      "outputs": [
+      inputs: [
         {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
+      name: 'quizzes',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: 'startTime',
+          type: 'uint256',
+        },
+        {
+          internalType: 'uint256',
+          name: 'endTime',
+          type: 'uint256',
+        },
+        {
+          internalType: 'uint256',
+          name: 'entryFee',
+          type: 'uint256',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
     },
     {
-      "inputs": [
+      inputs: [],
+      name: 'triavaManager',
+      outputs: [
         {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
       ],
-      "name": "validatorSlashings",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
+      stateMutability: 'view',
+      type: 'function',
     },
     {
-      "inputs": [
+      inputs: [],
+      name: 'validatorRate',
+      outputs: [
         {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
       ],
-      "name": "validatorStakings",
-      "outputs": [
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [
         {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
-    }
+      name: 'validatorSlashings',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [
+        {
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
+      ],
+      name: 'validatorStakings',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
   ];
 
-  private walletPrivateKey: string = "0x2f4e480534ff71c4fb129321894e782ffbef584bf8225f8c27484267dc40610f";
-  private walletAddress: string = "0xcD76cd3605547c9aF99520f6a48c811b79D4bAE7";
+  private walletPrivateKey: string =
+    '0x2f4e480534ff71c4fb129321894e782ffbef584bf8225f8c27484267dc40610f';
+  private walletAddress: string = '0xcD76cd3605547c9aF99520f6a48c811b79D4bAE7';
   // private walletMnemonics: string = "lava flip legend funny wear clock broccoli pyramid abstract suspect cart sniff";
 
   private web3: Web3;
@@ -555,27 +649,52 @@ export class ContractService {
     );
   }
 
-  async createQuiz(event: Event, questions: Question[]) {
-    await this.mainContract.methods.createQuiz(
-      event.id,
-      questions.map(q => q.id),
-      new Date(event.startDate).getTime(),
-      new Date(event.endDate).getTime(),
-      1
-    ).send({ from: this.walletAddress, gas: 300000 });
+  async createQuiz(event: Event, questions: Question[], joinFee: number) {
+    await this.mainContract.methods
+      .createQuiz(
+        event.id,
+        questions.map((q) => q.id),
+        new Date(event.startDate).getTime(),
+        new Date(event.endDate).getTime(),
+        this.web3.utils.toWei(joinFee.toString(), 'ether'),
+      )
+      .send({ from: this.walletAddress, gas: 300000 });
   }
 
   async finalizeQuiz(eventId: number, answers: Option[]) {
-    await this.mainContract.methods.finalizeQuiz(eventId, answers.map(a => a.id)).send({ from: this.walletAddress});
+    const answerIds = answers.map((a) => a.id);
+    console.log(answerIds);
+    await this.mainContract.methods
+      .finalizeQuiz(eventId, answerIds)
+      .send({ from: this.walletAddress, gas: 5000000 });
   }
 
   async calculateQuestionHash(text: string, creatorAddress: string) {
-    const result = await this.mainContract.methods.calculateQuestionHash(text, creatorAddress).call();
+    const result = await this.mainContract.methods
+      .calculateQuestionHash(text, creatorAddress)
+      .call();
     return result;
   }
 
-  async calcualateOptionHash(questionId: string, text: string, isCorrect: boolean, creatorAddress: string) {
-    const result = await this.mainContract.methods.calculateOptionHash(questionId, text, isCorrect, creatorAddress).call();
+  async getValidatorsByQuestionId(questionId: string) {
+    const result = await this.mainContract.methods.questions(questionId).call();
+    return result;
+  }
+
+  async getParticipantsByEventId(eventId: number) {
+    const result = await this.mainContract.methods.questions(eventId).call();
+    return result;
+  }
+
+  async calcualateOptionHash(
+    questionId: string,
+    text: string,
+    isCorrect: boolean,
+    creatorAddress: string,
+  ) {
+    const result = await this.mainContract.methods
+      .calculateOptionHash(questionId, text, isCorrect, creatorAddress)
+      .call();
     return result;
   }
 
@@ -583,7 +702,11 @@ export class ContractService {
     if (this.web3) {
       return this.web3;
     } else {
-      this.web3 = new Web3(new Web3.providers.HttpProvider('https://api.avax-test.network/ext/bc/C/rpc'),);
+      this.web3 = new Web3(
+        new Web3.providers.HttpProvider(
+          'https://api.avax-test.network/ext/bc/C/rpc',
+        ),
+      );
     }
   }
 }

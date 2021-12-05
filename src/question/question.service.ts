@@ -22,8 +22,12 @@ export class QuestionService {
   ) {}
 
   async createQuestion(data: CreateQuestionDTO, creatorAddress: string) {
+    console.log(data);
     let question = new Question();
-    question.id = await this.contractService.calculateQuestionHash(data.text, creatorAddress);
+    question.id = await this.contractService.calculateQuestionHash(
+      data.text,
+      creatorAddress,
+    );
     question.text = data.text;
     question.language = data.language;
     question.creatorAddress = creatorAddress;
@@ -31,7 +35,12 @@ export class QuestionService {
 
     for (const opt of data.options) {
       const option = new Option();
-      option.id = await this.contractService.calcualateOptionHash(question.id, opt.text, opt.isCorrect, creatorAddress);
+      option.id = await this.contractService.calcualateOptionHash(
+        question.id,
+        opt.text,
+        opt.isCorrect,
+        creatorAddress,
+      );
       option.text = opt.text;
       option.questionId = question.id;
       option.isCorrect = opt.isCorrect;
@@ -40,26 +49,18 @@ export class QuestionService {
     return question;
   }
 
-  async createQuestionValidation(
-    questionId: string,
-    data: any,
-    validatorAddress: string,
-  ) {
-    const validation = new Validation();
-    validation.id = ''; /**  @todo add id */
-    validation.isValidated = data.isValid;
-    validation.questionId = questionId;
-    validation.validatorAddress = validatorAddress;
-    return await this.validationRepository.save(validation);
-  }
-
   async getQuestionForValidation(validatorAddress: string): Promise<Question> {
     const questions = await this.questionRepository.find({
       where: { eventId: null },
-      relations: ['options', 'validations']
+      relations: ['options', 'validations'],
     });
 
-    const question = questions.find(q => q.validations.findIndex(v => v.validatorAddress === validatorAddress) === -1);
+    const question = questions.find(
+      (q) =>
+        q.validations.findIndex(
+          (v) => v.validatorAddress === validatorAddress,
+        ) === -1,
+    );
     return question;
   }
 
@@ -75,11 +76,12 @@ export class QuestionService {
   async getCorrectOptionsByEventId(eventId: number): Promise<Option[]> {
     const questions = await this.questionRepository.find({
       where: { eventId },
-      relations: ['options']
+      relations: ['options'],
+      order: { createdAt: `ASC` },
     });
-    const options =  [];
-    questions.forEach(q => {
-      const option = q.options.find(o => o.isCorrect === true);
+    const options = [];
+    questions.forEach((q) => {
+      const option = q.options.find((o) => o.isCorrect === true);
       options.push(option);
     });
     return options;

@@ -1,12 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { AppService } from './app.service';
+import { recoverUsingWeb3 } from './utils/decorators/request';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getSignature(@Query('signature') signature: string, @Query('text') text: string): string {
+    return recoverUsingWeb3(text, signature);
   }
 }

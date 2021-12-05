@@ -5,24 +5,26 @@ import { QuestionService } from './question.service';
 
 @Controller('questions')
 export class QuestionController {
-  constructor(
-    private readonly questionService: QuestionService,
-  ) {}
+  constructor(private readonly questionService: QuestionService) {}
 
   @Post()
-  async createQuestion(@Body() dto: CreateQuestionDTO, @GetWalletAddress() address: string) {
+  async createQuestion(
+    @Body() dto: CreateQuestionDTO,
+    @GetWalletAddress() address: string,
+  ) {
     const question = await this.questionService.createQuestion(dto, address);
     return question;
   }
 
   @Get()
   async getQuestionForValidation(@GetWalletAddress() address: string) {
-    const question = await this.questionService.getQuestionForValidation(address);
+    const question = await this.questionService.getQuestionForValidation(
+      address,
+    );
     if (question) {
       const { validations, ...pureQuestion } = question;
-      return pureQuestion;  
+      return pureQuestion;
     }
     return null;
   }
-
 }

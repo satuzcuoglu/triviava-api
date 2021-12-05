@@ -16,6 +16,12 @@ export class Event extends BaseEntity {
   @Column()
   endDate: Date;
 
+  @Column({ type: 'decimal', precision: 8, scale: 4 })
+  entryFee: number;
+
+  @Column({ default: false })
+  isFinished: boolean;
+
   @OneToMany(() => Question, (question) => question.event)
   questions: Question[];
 

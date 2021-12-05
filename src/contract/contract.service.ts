@@ -9,7 +9,7 @@ import { Question } from 'src/question/question.entity';
 
 @Injectable()
 export class ContractService {
-  private mainContractAddress = '0x13Ded9a082aF0d0eB8404366F721E690C85034f6';
+  private mainContractAddress = '0x7Af9b65bA5f239612D5879b12221a97649A3caC4';
   private mainContractABI: AbiItem[] = [
     {
       inputs: [

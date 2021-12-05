@@ -44,7 +44,9 @@ export class EventService {
 
     let event = new Event();
     event.startDate = data.startDate;
-    event.endDate = moment()
+    event.endDate = data.endTime
+      ? data.endTime
+      : moment()
       .add(data.questionCount * 15, 'seconds')
       .toDate();
     event.language = data.language;
